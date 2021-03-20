@@ -17,10 +17,9 @@ export default function FolderDisplaySection() {
 
   return (
     <Paper className={classes.root}>
-        <Box style={{padding:'16px'}}>
+        <Box style={{padding:'24px'}}>
 
-        </Box>
-        
+        </Box>   
     </Paper>
   );
 }

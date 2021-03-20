@@ -26,8 +26,8 @@ export default function HomePage() {
           <FolderListSection />
         </Grid>
         <Grid item xs={8}>
-          <FolderDisplaySection />
-        </Grid>
+          <FolderDisplaySection/>
+        </Grid> 
       </Grid>
     </div>
   );
