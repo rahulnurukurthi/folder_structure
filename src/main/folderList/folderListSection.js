@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Box, Paper, Typography } from "@material-ui/core";
-import "../App.css";
-import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import { Icon } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -13,12 +11,24 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "12px 0 0 12px",
     border: "1px solid #878787",
   },
+  listActions:{
+    '&:hover':{
+      background: '#aba9a9'
+    },
+    '&:active':{
+      background: '#aba9a9'
+    },
+    "&:focus": {
+      background: '#aba9a9'
+    },
+    cursor:'pointer'
+  }
 }));
 
-export default function FolderListSection() {
+export default function FolderListSection(props) {
   const classes = useStyles();
   const [folderList, setFolderList] = useState([
-    { name: "AirDrop", icon: "add" },
+    { name: "AirDrop", icon: "" },
     { name: "Recents", icon: "" },
     { name: "Applications", icon: "" },
     { name: "Downloads", icon: "" },
@@ -28,13 +38,9 @@ export default function FolderListSection() {
     { name: "Creative Cloud Files", icon: "" },
   ]);
 
-  useEffect(() => {}, []);
-
-  const copyCoupon = (e, data) => {
-    let coupon = data.copy;
-    navigator.clipboard.writeText(coupon);
-    alert(`Coupon code ${coupon} copied to your clipboard`);
-  };
+  const selectedFolder = (data) => {
+    props.clickedFolder(data);
+  }
 
   return (
     <Paper className={classes.root}>
@@ -62,31 +68,16 @@ export default function FolderListSection() {
           </Typography>
         </Box>
         <Box mt={2}>
-          {/* <> */}
-          <ContextMenuTrigger id="contextmenu">
-            <div className="coupon">
-              {folderList.map((data) => (
-                <Box mb={2} display="flex">
-                  <Icon style={{ color: "", marginRight: "8px" }}>
-                    {data.icon}
-                  </Icon>
-                  <Typography style={{ color: "#f0f0f0", fontWeight: "bold" }}>
-                    {data.name}
-                  </Typography>
-                </Box>
-              ))}
-            </div>
-          </ContextMenuTrigger>
+          {folderList.map((data,index) => (
+            <Box mb={2} display="flex" key={index} onClick={()=>selectedFolder(data.name)} className={classes.listActions}>
+              <Typography style={{ color: "#f0f0f0", fontWeight: "bold" }}>
+                {data.name}
+              </Typography>
+            </Box>
+          ))}
         </Box>
       </Box>
 
-      <ContextMenu id="contextmenu">
-        <MenuItem data={{ copy: "MI50" }} onClick={copyCoupon}>
-          {/* <FaRegCopy className="copy"/> */}
-          <Icon className="copy">copy</Icon>
-          <span>Copy</span>
-        </MenuItem>
-      </ContextMenu>
     </Paper>
   );
 }
