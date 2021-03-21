@@ -38,19 +38,19 @@ export default function FolderDisplaySection(props) {
         renameFolder(payloadData);
         break;
       default:
+        let updatedData = [...foldersList];
+        if (payloadData !== undefined) {
+          let displayData = { id: index, label: payloadData.title.value };
+          setFoldersList([...updatedData, { displayData }]);
+          setIndex(index + 1);
+        }
         break;
-    }
-    let updatedData = [...foldersList];
-    if (payloadData !== undefined) {
-      let displayData = { id: index, label: payloadData.title.value };
-      setFoldersList([...updatedData, { displayData }]);
-      setIndex(index + 1);
     }
   };
 
   const renameFolder = (payloadData) => {
     let data = [...foldersList];
-    console.log(foldersList)
+    console.log(foldersList);
     let index = data.findIndex(function (item, i) {
       return item.displayData["id"] === deleteId;
     });
@@ -61,8 +61,6 @@ export default function FolderDisplaySection(props) {
   const dialogDelete = () => {
     let data = [...foldersList];
     let index = data.findIndex(function (item, i) {
-      console.log(item.displayData["id"]);
-      console.log(deleteId)
       return item.displayData["id"] === deleteId;
     });
     foldersList.splice(index, 1);
@@ -101,13 +99,18 @@ export default function FolderDisplaySection(props) {
     <ContextMenuTrigger id="contextmenu">
       <Paper className={classes.root}>
         <Box style={{ padding: "24px" }}>
-          <Typography variant="h6" style={{color:'#FFF',marginBottom:'16px'}}>{props.folderDisplayPayload}</Typography>
+          <Typography
+            variant="h6"
+            style={{ color: "#FFF", marginBottom: "16px" }}
+          >
+            {props.folderDisplayPayload}
+          </Typography>
           {foldersList.length > 0 ? (
             <Grid container spacing={2}>
-              {foldersList.map((folder) => (
-                <div className="container">
-                  <Draggable bounds="parent">
-                    <div style={{ width: 100 }} className={"draggable"}>
+              <div className="container">
+                <Draggable bounds="parent">
+                  <div style={{ width: 100 }} className="draggable">
+                    {foldersList.map((folder) => (
                       <Grid item xs={3} key={folder.displayData.id}>
                         <div>
                           {folder.displayData.label ? (
@@ -120,10 +123,10 @@ export default function FolderDisplaySection(props) {
                           {folder.displayData.label}
                         </Box>
                       </Grid>
-                    </div>
-                  </Draggable>
-                </div>
-              ))}
+                    ))}
+                  </div>
+                </Draggable>
+              </div>
             </Grid>
           ) : (
             ""
